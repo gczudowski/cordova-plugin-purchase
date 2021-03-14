@@ -3303,12 +3303,18 @@ function iabLoaded(validProducts) {
               parsedSubscriptionPeriod.count = normalizeISOPeriodCount(subscriptionPeriod);
             }
 
+            var trialPeriod = {};
+            if (vp.freeTrialPeriod) {
+                trialPeriod.count = normalizeISOPeriodCount(vp.freeTrialPeriod);
+                trialPeriod.unit = normalizeISOPeriodUnit(vp.freeTrialPeriod);
+            }
+
             p.set({
                 title: trimTitle(vp.title || vp.name),
                 price: vp.price || vp.formattedPrice,
                 priceMicros: vp.price_amount_micros,
-                trialPeriod: vp.trial_period || null,
-                trialPeriodUnit: vp.trial_period_unit || null,
+                trialPeriod: trialPeriod.count || null,
+                trialPeriodUnit: trialPeriod.unit || null,
                 billingPeriod: parsedSubscriptionPeriod.count || vp.billing_period || null,
                 billingPeriodUnit: parsedSubscriptionPeriod.unit || vp.billing_period_unit || null,
                 description: vp.description,
